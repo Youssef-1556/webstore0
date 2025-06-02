@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Votre panier</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header>
+  <nav>
+    <a href="/">Accueil</a>
+    <% if (user) { %>
+      <span>Bienvenue, <%= user.username %> | </span>
+      <a href="/logout">Déconnexion</a>
+      <a href="/cart">Panier</a>
+    <% } else { %>
+      <a href="/login">Connexion</a>
+      <a href="/register">Inscription</a>
+    <% } %>
+    <a href="/contact">Contact</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>Votre panier</h1>
+
+  <% if (cartItems.length === 0) { %>
+    <p>Votre panier est vide.</p>
+  <% } else { %>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+      <thead>
+        <tr>
+          <th style="text-align:left; border-bottom: 1px solid #ccc;">Produit</th>
+          <th style="text-align:right; border-bottom: 1px solid #ccc;">Prix unitaire</th>
+          <th style="text-align:right; border-bottom: 1px solid #ccc;">Quantité</th>
+          <th style="text-align:right; border-bottom: 1px solid #ccc;">Sous-total</th>
+          <th style="text-align:center; border-bottom: 1px solid #ccc;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cartItems.forEach(item => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td style="text-align:right;"><%= Number(item.price).toFixed(2) %> €</td>
+            <td style="text-align:right;">
+              <form action="/cart/decrease/<%= item.id %>" method="POST" style="display:inline;">
+                <button type="submit" style="margin-right: 5px;">-</button>
+              </form>
+              <%= item.quantity %>
+              <form action="/cart/increase/<%= item.id %>" method="POST" style="display:inline;">
+                <button type="submit" style="margin-left: 5px;">+</button>
+              </form>
+            </td>
+            <td style="text-align:right;"><%= (item.price * item.quantity).toFixed(2) %> €</td>
+            <td style="text-align:center;">
+              <a href="/cart/remove-from-cart/<%= item.id %>" onclick="return confirm('Supprimer ce produit du panier ?');" style="color:red;">Retirer</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <h3>Total : <%= total.toFixed(2) %> €</h3>
+  <% } %>
+</div>
+
+<footer>
+  &copy; 2025 Webstore Matériel - Tous droits réservés
+</footer>
+</body>
+</html>

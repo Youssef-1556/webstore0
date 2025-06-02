@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Accueil - Webstore Matériel</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Accueil</a>
+            <% if(user){ %>
+                <span>Bienvenue, <%= user.username %> | </span>
+                <a href="/logout">Déconnexion</a>
+                <a href="/cart">Panier</a>
+            <% } else { %>
+                <a href="/login">Connexion</a>
+                <a href="/register">Inscription</a>
+            <% } %>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Catégories de matériel informatique</h1>
+        <ul>
+            <% categories.forEach(category => { %>
+                <li><a href="/category/<%= category.id %>"><%= category.name %></a></li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <footer>
+        &copy; 2025 Webstore Matériel - Tous droits réservés
+    </footer>
+</body>
+</html>

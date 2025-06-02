@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Catégorie : <%= category.name %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/">Accueil</a>
+        <% if(user){ %>
+            <span>Bienvenue, <%= user.username %> | </span>
+            <a href="/logout">Déconnexion</a>
+            <a href="/cart">Panier</a>
+        <% } else { %>
+            <a href="/login">Connexion</a>
+            <a href="/register">Inscription</a>
+        <% } %>
+        <a href="/contact">Contact</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Catégorie : <%= category.name %></h1>
+    <% if(products.length === 0) { %>
+        <p>Aucun produit dans cette catégorie.</p>
+    <% } else { %>
+        <% products.forEach(product => { %>
+            <div class="product">
+                <h3><%= product.name %></h3>
+                <p>Prix : <%= product.price %> €</p>
+                <% if(user){ %>
+                    <a href="/add-to-cart/<%= product.id %>"><button>Ajouter au panier</button></a>
+                <% } else { %>
+                    <a href="/login"><button>Connectez-vous pour acheter</button></a>
+                <% } %>
+            </div>
+        <% }) %>
+    <% } %>
+</div>
+
+<footer>
+    &copy; 2025 Webstore Matériel - Tous droits réservés
+</footer>
+</body>
+</html>
